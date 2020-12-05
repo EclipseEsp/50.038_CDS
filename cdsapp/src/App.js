@@ -3,11 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
+  const [prediction, setPrediction] = useState(0);
 
   useEffect(() => {
-    fetch('/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
+    fetch('/classify_waste').then(res => res.json()).then(data => {
+      setPrediction(data.pred);
     });
   }, []);
 
@@ -15,18 +15,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>The current time is {currentTime}.</p>
+        <p>The current prediction is {prediction}.</p>
       </header>
     </div>
   );

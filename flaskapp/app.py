@@ -7,25 +7,24 @@ from keras.models import Model,load_model
 
 app = Flask(__name__)
 
+ # VGG16 Model Initializtion
+try:
+  vgg16_model = f'VGG16_model-20201201T171520Z-001/VGG16_model/VGG16_1'
+  trained_model = load_model(vgg16_model)
+
+  # img = image.load_img('sample_image.jpg')
+
+  label_names = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
+except Exception as e:
+  print(str(e))
 
 
-
-@app.route('/time')
-def get_current_time():
-  # VGG16 Model
+# classify_waste
+@app.route('/classify_waste')
+def classify_waste():
   try:
-    vgg16_model = f'VGG16_model-20201201T171520Z-001/VGG16_model/VGG16_1'
-    trained_model = load_model(vgg16_model)
 
-    img = image.load_img('sample_image.jpg')
-
-    label_names = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
-
-    #***********************************************************************
-    #taking in a single image
     test = cv2.imread('sample_image.jpg')
-    # test = cv2.imread('drive/My Drive/recyclables/sample_image_2.jpg')
-    # test = cv2.imread('drive/My Drive/recyclables/sample_image_4.jpg')
     test = cv2.resize(test,(224,224))
     # data preprocessing to get the input in the same shape
     x = image.img_to_array(test)  # this is a Numpy array with shape (3, x, y) 
@@ -38,4 +37,6 @@ def get_current_time():
     print(f'Input image is predicted to be {label_names[pred[0]]} with confidence level of {max(confidence[0])*100}%')
   except Exception as e:
     print(str(e))
-  return {'time': max(confidence[0])*100} #time.time()
+
+
+  return {'pred': max(confidence[0])*100} #time.time()
