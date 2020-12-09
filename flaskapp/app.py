@@ -1,5 +1,6 @@
 import time
 from flask import Flask,request
+import os
 import cv2
 import numpy as np
 from keras.preprocessing import image
@@ -7,11 +8,16 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model,load_model
 import base64
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../cdsapp/build',static_url_path='/')
 
- # VGG16 Model Initializtion
+@app.route('/')
+def index():
+  return app.send_static_file('index.html')
+  
+
+# CNN Model Initializtion
 try:
-  vgg16_model = 'VGG16_1'
+  vgg16_model = 'InceptionV3_6'
   trained_model = load_model(vgg16_model)
 
   # img = image.load_img('sample_image.jpg')
@@ -40,9 +46,14 @@ def classify_waste():
     pred = trained_model.predict_classes(x)  #getting your prediction index
     confidence = trained_model.predict_proba(x) #getting your prediction confidence levels
     # label_names = [i for i in train_set.class_indices.keys()]  #label names
-    print('Input image is predicted to be {label_names[pred[0]]} with confidence level of {max(confidence[0])*100}%')
+    print(f'Input image is predicted to be {label_names[pred[0]]} with confidence level of {max(confidence[0])*100}%')
   except Exception as e:
     print(str(e))
 
   # return {'pred': 0}
-  return {'pred': max(confidence[0])*100} #time.time()
+  return {'pred': max(confidence[0])*100, 'label':label_names[pred[0]] } #time.time()
+
+
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))

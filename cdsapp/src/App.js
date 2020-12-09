@@ -7,6 +7,7 @@ import 'react-html5-camera-photo/build/css/index.css';
 
 function App() {
   const [prediction, setPrediction] = useState(0)
+  const [label, setLabel] = useState(0)
   const [image, setImage] = useState(null)
 
   // Function to Pass Image to be Predicted in Flask
@@ -16,6 +17,7 @@ function App() {
       body: dataUri,
     }).then(res => res.json()).then(data => {
       setPrediction(data.pred);
+      setLabel(data.label);
     });
   }
 
@@ -53,15 +55,15 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={recycling} className="App-logo" alt="logo" />
-        <h1> Garbage Classification</h1>
+        <h1> Recycl-EZ (Garbarge Classification)</h1>
       </header>
       <body>
           <h1>Select Image or Take Picture</h1>
-          <Camera onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }/>
+          {<Camera onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }/>}
           <hr></hr>
           <img src={image} style={{height:'224px',width:'224px',marginRight: '10px'}}></img>
           <input id="input" type="file" name="myImage" onChange={onSelect} />
-          <p>The current prediction is {prediction}.</p>
+          <p>The image is predicted to be <b>{label}</b> with confidence level of <b>{prediction}%</b>.</p>
       </body>
     </div>
   );
