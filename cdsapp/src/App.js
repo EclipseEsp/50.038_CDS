@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import recycling from './recycling.svg'
 import './App.css';
-import Camera from 'react-html5-camera-photo';
+import Camera, { FACING_MODES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 
 function App() {
@@ -59,7 +59,7 @@ function App() {
       </header>
       <body>
           <h1>Select Image or Take Picture</h1>
-          {<Camera onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }/>}
+          {<Camera idealFacingMode = {FACING_MODES.ENVIRONMENT} onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }/>}
           <hr></hr>
           <img src={image} style={{height:'224px',width:'224px',marginRight: '10px'}}></img>
           <input id="input" type="file" name="myImage" onChange={onSelect} />
