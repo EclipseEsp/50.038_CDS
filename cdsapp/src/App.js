@@ -55,7 +55,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={recycling} className="App-logo" alt="logo" />
-        <h1> Recycl-EZ (Garbarge Classification)</h1>
+        <h1> Recycl-EZ (Garbage Classification)</h1>
       </header>
       <body>
           <h1>Select Image or Take Picture</h1>
