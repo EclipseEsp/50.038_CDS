@@ -59,7 +59,7 @@ function App() {
       </header>
       <body>
           <h1>Select Image or Take Picture</h1>
-          {<Camera idealFacingMode = {FACING_MODES.ENVIRONMENT} onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }/>}
+          {<Camera idealFacingMode = {FACING_MODES.ENVIRONMENT} isImageMirror = {false} onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }/>}
           <hr></hr>
           <img src={image} style={{height:'224px',width:'224px',marginRight: '10px'}}></img>
           <input id="input" type="file" name="myImage" onChange={onSelect} />

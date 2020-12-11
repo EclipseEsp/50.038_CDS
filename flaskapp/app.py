@@ -7,11 +7,8 @@ from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model,load_model
 import base64
-from OpenSSL import SSL
+import ssl
 
-context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
-context.use_privatekey_file('server.key')
-context.use_certificate_file('server.crt')
 
 app = Flask(__name__, static_folder='../cdsapp/build',static_url_path='/')
 
@@ -61,4 +58,5 @@ def classify_waste():
 
 
 if __name__ == "__main__":
+  context = ('server.crt', 'server.key')
   app.run(host='0.0.0.0', debug=False, ssl_context=context)
